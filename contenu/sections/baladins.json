@@ -1,0 +1,40 @@
+{
+  "nom": "Baladins",
+  "ab": "bala",
+  "color": "#40566B",
+  "ages": "6-8 ans",
+  "tag": "la Ribambelle",
+  "intro": "Les Baladins accueillent les garçons âgés de 6 à 8 ans. Ensemble, ils forment la Ribambelle.",
+  "effectif": "~12",
+  "unit": "baladins en moyenne",
+  "reunions": "samedi, 14h00-17h00, rue Saint-Laurent 77, 4000 Liège",
+  "camp": "du 17 au 24 juillet 2026",
+  "email": "baladinsxi@gmail.com",
+  "staff": [
+    {
+      "t": "Bandar",
+      "n": "Thomas Schynts",
+      "tel": "",
+      "resp": true
+    },
+    {
+      "t": "Muriqui",
+      "n": "Arthur Reynaert",
+      "tel": "0484 96 75 92",
+      "resp": false
+    },
+    {
+      "t": "Impala",
+      "n": "Mathis Verrekt",
+      "tel": "",
+      "resp": false
+    },
+    {
+      "t": "Alquimi",
+      "n": "Arthur Morant",
+      "tel": "",
+      "resp": false
+    }
+  ],
+  "photo_staff": "images/staffs/baladins.jpeg"
+}

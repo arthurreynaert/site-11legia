@@ -1,0 +1,23 @@
+{
+  "titre": "Réunion mario",
+  "date": "2026-11-23",
+  "section": [
+    "baladins"
+  ],
+  "texte": "Mario arrive a la 11eme",
+  "detail": "Ce samedis nos baladins se sont brisé en deux pour trouver les meilleurs karts.",
+  "photos": [
+    "images/2026/11/mario.jpg",
+    "images/2026/11/cerf-volant-style.jpg",
+    "images/2026/11/ballons.png",
+    "images/2026/11/cerf-volant.jpg",
+    "images/2026/11/chassi-1.jpg",
+    "images/2026/11/kart-dore.jpg",
+    "images/2026/11/kart-nul.jpg",
+    "images/2026/11/peach.jpg",
+    "images/2026/11/roue-bois.jpeg",
+    "images/2026/11/roue-doree.jpg",
+    "images/2026/11/roue-normale.jpg",
+    "images/2026/11/yoshi.png"
+  ]
+}

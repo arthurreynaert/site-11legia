@@ -1,0 +1,58 @@
+{
+  "nom": "Éclaireurs",
+  "ab": "ecl",
+  "color": "#40566B",
+  "ages": "12-16 ans",
+  "tag": "la Troupe",
+  "intro": "Les éclaireurs rassemblent la « Troupe » des animés de 12 à 15 ans.",
+  "effectif": "~20",
+  "unit": "éclaireurs en moyenne",
+  "reunions": "samedi, 14h00-17h00, rue Saint-Laurent 77, 4000 Liège",
+  "camp": "",
+  "email": "eclaireurs.11legia@gmail.com",
+  "staff": [
+    {
+      "t": "Gwaga",
+      "n": "Raphaël Vanbrabant",
+      "tel": "0475 39 03 05",
+      "resp": true
+    },
+    {
+      "t": "Ocicat",
+      "n": "Thomas Cajot",
+      "tel": "0475 45 60 93",
+      "resp": false
+    },
+    {
+      "t": "Aïdi",
+      "n": "Victor Vanturenhout",
+      "tel": "0491 89 44 01",
+      "resp": false
+    },
+    {
+      "t": "Ardea",
+      "n": "Gaëlle Gryglewicz",
+      "tel": "",
+      "resp": false
+    },
+    {
+      "t": "Alouette",
+      "n": "Louis Frenay",
+      "tel": "",
+      "resp": false
+    },
+    {
+      "t": "Pika",
+      "n": "Gabriel Argenton",
+      "tel": "",
+      "resp": false
+    },
+    {
+      "t": "Watusi",
+      "n": "Jérome Chartry",
+      "tel": "",
+      "resp": false
+    }
+  ],
+  "photo_staff": "images/staffs/eclaireurs.jpeg"
+}

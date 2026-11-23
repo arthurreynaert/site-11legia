@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin – La XIème Légia</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../images/logos/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="192x192" href="../images/logos/icon-192.png?v=2">
+<link rel="shortcut icon" href="../favicon.ico?v=2">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png?v=2">
+</head>
+<body>
+<script src="https://unpkg.com/decap-cms@3.18.0/dist/decap-cms.js"></script>
+<script>
+/* ------------------------------------------------------------
+   Widget « galerie » : envoi de plusieurs photos d'un coup.
+   Les fichiers passent par l'admin (réduction, métadonnées
+   retirées) et sont enregistrés dans images/<année>/<mois>/
+   avec l'actualité, au moment de « Publier ».
+   ------------------------------------------------------------ */
+(function () {
+  var h = window.h, createClass = window.createClass;
+  var safe = function (name) {
+    var dot = name.lastIndexOf('.'), base = dot > 0 ? name.slice(0, dot) : name, ext = dot > 0 ? name.slice(dot + 1) : 'jpg';
+    base = base.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'photo';
+    return base + '.' + ext.toLowerCase().replace(/[^a-z0-9]/g, '');
+  };
+  var folderOf = function (entry) {
+    var d = String(entry.getIn(['data', 'date']) || '');
+    var m = d.match(/^(\d{4})-(\d{2})/);
+    if (!m) { var n = new Date(); m = [0, String(n.getFullYear()), ('0' + (n.getMonth() + 1)).slice(-2)]; }
+    return 'images/' + m[1] + '/' + m[2];
+  };
+  var list = function (v) {
+    if (!v) return [];
+    if (typeof v === 'string') return [v];
+    return v.toJS ? v.toJS() : [].concat(v);
+  };
+  var btn = { padding: '8px 14px', border: '0', borderRadius: '5px', background: '#3a69c7', color: '#fff', cursor: 'pointer', fontSize: '14px' };
+  var small = { border: '0', background: 'rgba(0,0,0,.65)', color: '#fff', borderRadius: '3px', cursor: 'pointer', padding: '1px 6px', fontSize: '13px' };
+
+  var Control = createClass({
+    getInitialState: function () { return { busy: 0, fresh: {} }; },
+    src: function (p) {
+      if (this.state.fresh[p]) { var a = this.props.getAsset(p, this.props.field); var u = a && a.toString(); if (u) return u; }
+      return '../' + p;
+    },
+    add: function (e) {
+      var self = this, files = Array.prototype.slice.call(e.target.files || []);
+      e.target.value = '';
+      if (!files.length) return;
+      var folder = folderOf(this.props.entry), cur = list(this.props.value), fresh = Object.assign({}, this.state.fresh);
+      this.setState({ busy: files.length });
+      files.reduce(function (p, f) {
+        return p.then(function () {
+          var name = safe(f.name), path = folder + '/' + name, i = 2;
+          while (cur.indexOf(path) !== -1) { path = folder + '/' + name.replace(/\.(\w+)$/, '-' + i++ + '.$1'); }
+          var file = new File([f], path.split('/').pop(), { type: f.type });
+          return Promise.resolve(self.props.onPersistMedia(file, { field: self.props.field })).then(function () {
+            cur = cur.concat(path); fresh[path] = true;
+            self.setState({ busy: self.state.busy - 1, fresh: fresh });
+            self.props.onChange(cur.slice());
+          });
+        });
+      }, Promise.resolve()).catch(function (err) { console.error(err); alert('Envoi interrompu : ' + err); })
+        .then(function () { self.setState({ busy: 0 }); });
+    },
+    move: function (i, d) {
+      var v = list(this.props.value), j = i + d;
+      if (j < 0 || j >= v.length) return;
+      var t = v[i]; v[i] = v[j]; v[j] = t; this.props.onChange(v);
+    },
+    remove: function (i) { var v = list(this.props.value); v.splice(i, 1); this.props.onChange(v); },
+    render: function () {
+      var self = this, v = list(this.props.value);
+      return h('div', { className: this.props.classNameWrapper, style: { padding: '12px' } },
+        h('label', { style: Object.assign({ display: 'inline-block' }, btn) },
+          this.state.busy ? 'Préparation… (' + this.state.busy + ' restante(s))' : '+ Ajouter des photos',
+          h('input', { type: 'file', accept: 'image/*', multiple: true, onChange: this.add, disabled: !!this.state.busy, style: { display: 'none' } })),
+        h('span', { style: { marginLeft: '12px', color: '#666', fontSize: '13px' } }, v.length + ' photo(s) · dossier ' + folderOf(this.props.entry) + '/'),
+        h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(110px,1fr))', gap: '8px', marginTop: '12px' } },
+          v.map(function (p, i) {
+            return h('div', { key: p, style: { position: 'relative', background: '#eee', borderRadius: '4px', overflow: 'hidden', aspectRatio: '1', outline: i === 0 ? '3px solid #3a69c7' : '' } },
+              h('img', { src: self.src(p), alt: '', style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+              h('div', { style: { position: 'absolute', left: '4px', right: '4px', bottom: '4px', display: 'flex', gap: '4px', justifyContent: 'space-between' } },
+                h('button', { type: 'button', style: small, title: 'Avant', onClick: function () { self.move(i, -1); } }, '‹'),
+                h('button', { type: 'button', style: small, title: 'Retirer', onClick: function () { self.remove(i); } }, '✕'),
+                h('button', { type: 'button', style: small, title: 'Après', onClick: function () { self.move(i, 1); } }, '›')),
+              i === 0 ? h('span', { style: Object.assign({ position: 'absolute', top: '4px', left: '4px' }, small) }, 'couverture') : null);
+          })));
+    }
+  });
+  var Preview = createClass({
+    render: function () {
+      return h('p', {}, list(this.props.value).length + ' photo(s)');
+    }
+  });
+  CMS.registerWidget('galerie', Control, Preview);
+})();
+</script>
+</body>
+</html>

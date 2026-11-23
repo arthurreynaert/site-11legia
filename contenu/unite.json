@@ -1,0 +1,41 @@
+{
+  "annee": "2026-27",
+  "email": "unite11legia@gmail.com",
+  "equipe": [
+    {
+      "n": "Timothée Hubart",
+      "tel": "0478 41 17 43"
+    },
+    {
+      "n": "Sophie Thonnard",
+      "tel": "0488 70 72 68"
+    },
+    {
+      "n": "Marilyn De Coninck",
+      "tel": "0488 70 72 68"
+    },
+    {
+      "n": "Seb biche",
+      "tel": "0467 67 67 67"
+    }
+  ],
+  "cotisations": {
+    "echeance": "31 octobre",
+    "iban": "BE83 1036 0973 6715",
+    "tarifs": [
+      {
+        "prix": "85 €",
+        "texte": "si votre famille ne compte qu’un seul membre inscrit chez Les Scouts ou à la GCB (guides catholiques de Belgique)"
+      },
+      {
+        "prix": "75 €",
+        "texte": "par personne si votre famille compte 2 membres chez Les Scouts ou à la GCB"
+      },
+      {
+        "prix": "65 €",
+        "texte": "par personne si votre famille compte plus de 2 membres chez Les Scouts ou à la GCB"
+      }
+    ]
+  },
+  "formulaire": "images/documents/inscription.docx"
+}

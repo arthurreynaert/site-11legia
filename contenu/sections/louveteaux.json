@@ -1,0 +1,58 @@
+{
+  "nom": "Louveteaux",
+  "ab": "lou",
+  "color": "#526B55",
+  "ages": "8-12 ans",
+  "tag": "la Meute",
+  "intro": "Les Louveteaux accueillent les garçons âgés de 8 à 12 ans. Ensemble, ils forment la Meute.",
+  "effectif": "~40",
+  "unit": "louveteaux en moyenne",
+  "reunions": "samedi, 14h00-17h00, rue Saint-Laurent 77, 4000 Liège",
+  "camp": "du 21 au 31 juillet 2026",
+  "email": "louveteaux11@gmail.com",
+  "staff": [
+    {
+      "t": "Akela",
+      "n": "Louis Mckeever",
+      "tel": "0470 54 83 22",
+      "resp": true
+    },
+    {
+      "t": "Darzee",
+      "n": "Quentin Lemaire",
+      "tel": "0492 50 44 07",
+      "resp": false
+    },
+    {
+      "t": "Koudou",
+      "n": "Nathan S’Jongers",
+      "tel": "",
+      "resp": false
+    },
+    {
+      "t": "Corsac",
+      "n": "Jules Caeymaex",
+      "tel": "",
+      "resp": false
+    },
+    {
+      "t": "Terre-Neuve",
+      "n": "Valentin Moreau",
+      "tel": "",
+      "resp": false
+    },
+    {
+      "t": "Steno",
+      "n": "Youri Werbrouck",
+      "tel": "",
+      "resp": false
+    },
+    {
+      "t": "Boongary",
+      "n": "Baptiste Gauthy",
+      "tel": "",
+      "resp": false
+    }
+  ],
+  "photo_staff": "images/staffs/louveteaux.jpeg"
+}

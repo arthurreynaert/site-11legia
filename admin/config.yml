@@ -1,0 +1,189 @@
+# ============================================================
+#  CONFIGURATION DE L'ADMIN (Decap CMS)
+#  Seule ligne à adapter : « repo » (votre-compte/nom-du-depot).
+# ============================================================
+backend:
+  name: github
+  repo: VOTRE-COMPTE-GITHUB/site-11legia   # <-- à remplacer
+  branch: main
+  commit_messages:
+    create: 'Ajout {{collection}} « {{slug}} »'
+    update: 'Modification {{collection}} « {{slug}} »'
+    delete: 'Suppression {{collection}} « {{slug}} »'
+    uploadMedia: 'Ajout du fichier {{path}}'
+    deleteMedia: 'Suppression du fichier {{path}}'
+
+# Pour tester l'admin sur son PC (voir GUIDE-ADMIN.md) : npx decap-server
+local_backend: true
+
+locale: fr
+logo_url: /images/logos/icon-512.png
+
+# Fichiers envoyés hors actualités (formulaire, documents…)
+media_folder: images/documents
+public_folder: images/documents
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+# Photos réduites avant l'envoi (1600 px de large) et sans métadonnées
+# (la position GPS des photos d'enfants n'est donc jamais publiée).
+media_processing:
+  enabled: true
+  quality: 82
+  strip_metadata: true
+  width: 1600
+  height: null
+
+collections:
+  # ---------------------------------------------------------- ACTUALITÉS
+  - name: actus
+    label: Actualités
+    label_singular: actualité
+    description: 'Chaque actualité apparaît sur l’accueil et sur la page des sections concernées. Ses photos sont rangées automatiquement dans images/année/mois/.'
+    folder: contenu/actus
+    path: '{{year}}/{{month}}/{{slug}}'
+    slug: '{{slug}}'
+    identifier_field: titre
+    extension: json
+    format: json
+    create: true
+    delete: true
+    media_folder: '/images/{{year}}/{{month}}'
+    public_folder: 'images/{{year}}/{{month}}'
+    summary: '{{date}} · {{titre}}'
+    sortable_fields: ['date', 'titre']
+    view_groups:
+      - { label: Année, field: date, pattern: '\d{4}' }
+    fields:
+      - { label: Titre, name: titre, widget: string }
+      - label: Date
+        name: date
+        widget: datetime
+        format: 'YYYY-MM-DD'
+        date_format: 'DD/MM/YYYY'
+        time_format: false
+        default: '{{now}}'
+        hint: 'Choisissez la date avant d’ajouter les photos : elle décide du dossier année/mois.'
+      - label: Section(s)
+        name: section
+        widget: select
+        multiple: true
+        min: 1
+        default: ['unite']
+        options:
+          - { label: 'Toute l’unité', value: unite }
+          - { label: Baladins, value: baladins }
+          - { label: Louveteaux, value: louveteaux }
+          - { label: Éclaireurs, value: eclaireurs }
+          - { label: Pionniers, value: pionniers }
+      - label: Texte (court, affiché sur la carte)
+        name: texte
+        widget: text
+        hint: 'Liens et gras possibles en HTML simple : <a href="…">lien</a>, <b>gras</b>.'
+      - label: Texte long (page photos)
+        name: detail
+        widget: text
+        required: false
+        hint: 'Facultatif. Sinon, le texte court est repris.'
+      - label: Vidéo YouTube
+        name: video
+        widget: string
+        required: false
+        hint: 'Facultatif. Collez le lien de la vidéo YouTube.'
+      - label: Photos
+        name: photos
+        widget: galerie
+        required: false
+        hint: 'Vous pouvez en sélectionner plusieurs d’un coup. La première sert de couverture.'
+
+  # ---------------------------------------------------------- SECTIONS
+  - name: sections
+    label: Sections et staffs
+    label_singular: section
+    description: 'Infos pratiques, staff et photo de staff de chaque section.'
+    create: false
+    delete: false
+    extension: json
+    format: json
+    files:
+      - &section
+        name: baladins
+        label: Baladins
+        file: contenu/sections/baladins.json
+        fields:
+          - { label: Nom, name: nom, widget: string }
+          - { label: Âges, name: ages, widget: string }
+          - { label: Surnom du groupe, name: tag, widget: string, hint: 'ex. la Ribambelle' }
+          - { label: Présentation, name: intro, widget: text }
+          - { label: Effectif, name: effectif, widget: string, hint: 'ex. ~12' }
+          - { label: Texte sous l’effectif, name: unit, widget: string }
+          - { label: Réunions, name: reunions, widget: string }
+          - { label: Camp d’été, name: camp, widget: string, required: false, hint: 'Laisser vide pour ne pas l’afficher.' }
+          - { label: E-mail de la section, name: email, widget: string }
+          - label: Photo du staff
+            name: photo_staff
+            widget: image
+            required: false
+            choose_url: false
+            media_folder: /images/staffs
+            public_folder: images/staffs
+          - label: Staff
+            name: staff
+            widget: list
+            label_singular: animateur
+            summary: '{{fields.t}} · {{fields.n}}'
+            fields:
+              - { label: Totem, name: t, widget: string }
+              - { label: Prénom Nom, name: n, widget: string }
+              - { label: Téléphone, name: tel, widget: string, required: false }
+              - { label: Responsable de section, name: resp, widget: boolean, default: false }
+          - { name: ab, widget: hidden }
+          - { name: color, widget: hidden }
+      - { <<: *section, name: louveteaux, label: Louveteaux, file: contenu/sections/louveteaux.json }
+      - { <<: *section, name: eclaireurs, label: Éclaireurs, file: contenu/sections/eclaireurs.json }
+      - { <<: *section, name: pionniers, label: Pionniers, file: contenu/sections/pionniers.json }
+
+  # ---------------------------------------------------------- UNITÉ
+  - name: unite
+    label: Unité
+    create: false
+    delete: false
+    extension: json
+    format: json
+    files:
+      - name: unite
+        label: Unité, cotisations et inscription
+        file: contenu/unite.json
+        fields:
+          - { label: Année scoute, name: annee, widget: string, hint: 'ex. 2026-27 (affichée sur les pages staff et cotisations)' }
+          - { label: E-mail de l’unité, name: email, widget: string }
+          - label: Équipe d’unité
+            name: equipe
+            widget: list
+            label_singular: membre
+            summary: '{{fields.n}}'
+            fields:
+              - { label: Prénom Nom, name: n, widget: string }
+              - { label: Téléphone, name: tel, widget: string, required: false }
+          - label: Cotisations
+            name: cotisations
+            widget: object
+            fields:
+              - { label: Date limite de paiement, name: echeance, widget: string, hint: 'ex. 31 octobre' }
+              - { label: IBAN, name: iban, widget: string }
+              - label: Tarifs
+                name: tarifs
+                widget: list
+                label_singular: tarif
+                summary: '{{fields.prix}}'
+                fields:
+                  - { label: Prix, name: prix, widget: string, hint: 'ex. 85 €' }
+                  - { label: Condition, name: texte, widget: string }
+          - label: Formulaire d’inscription
+            name: formulaire
+            widget: file
+            choose_url: false
+            media_folder: /images/documents
+            public_folder: images/documents
