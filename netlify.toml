@@ -1,0 +1,7 @@
+# Netlify : régénère data.js à partir de contenu/ à chaque modification
+[build]
+  command = "node build.js"
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "22"

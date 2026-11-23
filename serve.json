@@ -1,0 +1,15 @@
+{
+  "cleanUrls": false,
+  "directoryListing": false,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/index", "destination": "/index.html" },
+    { "source": "/baladins", "destination": "/baladins.html" },
+    { "source": "/louveteaux", "destination": "/louveteaux.html" },
+    { "source": "/eclaireurs", "destination": "/eclaireurs.html" },
+    { "source": "/pionniers", "destination": "/pionniers.html" },
+    { "source": "/galerie", "destination": "/galerie.html" },
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/config.yml", "destination": "/admin/config.yml" }
+  ]
+}
